@@ -16,12 +16,9 @@
 </head>
 
 <body class="sb-nav-fixed">
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark px-lg-4">
-        <a class="navbar-brand ps-3">Menu</a>
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle"><i
-                class="fas fa-bars"></i></button>
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" onclick="set()"><i id="mode"
-                class="fa fa-toggle-off"></i></button>
+    <nav id="navbar" class="sb-topnav navbar navbar-expand navbar-dark bg-dark text-light px-lg-5">
+        <a class="navbar-brand">Menu</a>
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0 mx-auto" onclick="set()"><i id="mode" class="fa fa-toggle-off"></i></button>
         <a class="nav-link ms-auto" href="">
             <div class="text-center"><i class="fa fa-book"></i></div>
             Buku
@@ -34,7 +31,7 @@
                         class="fas fa-search"></i></button>
             </div>
         </form>
-        <h4 class="navbar-nav text-light mx-2">{{ Auth::check()?Auth::user()->name:'Anonymous' }}</h4>
+        <h4 class="navbar-nav mx-2">{{ Auth::check()?Auth::user()->name:'Anonymous' }}</h4>
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
@@ -52,8 +49,10 @@
         </ul>
     </nav>
     <main>
-        <div class="container-fluid px-4">
+        <div class="container-fluid px-lg-5 py-lg-3">
             @yield('content')
+            <h1>Dashboard</h1>
+
             @if (Auth::check())
                 @include('profile')
             @else
@@ -75,6 +74,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.0/js/toastr.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="{{asset('js/darkLightMode.js')}}"></script>
 @if ($errors->has('email_login')||$errors->has('password_login'))
     <script>
         $(document).ready(function () {

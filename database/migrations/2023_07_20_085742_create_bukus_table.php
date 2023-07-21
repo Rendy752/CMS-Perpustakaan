@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('buku', function (Blueprint $table) {
             $table->uuid("id")->primary();
+            $table->uuid('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string("judul");
-            $table->enum("kategori",["Novel","Majalah","Kamus","Ensiklopedia","Komik","Manga","Biografi"]);
+            $table->uuid('kategori_id');
+            $table->foreign('kategori_id')->references('id')->on('kategori')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string("deskripsi");
             $table->integer("jumlah");
             $table->string("file");
