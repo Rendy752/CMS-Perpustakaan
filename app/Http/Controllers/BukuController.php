@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Buku;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class BukuController extends Controller
 {
