@@ -1,5 +1,5 @@
 <div class="modal fade" role="dialog" id="profil" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-radius: 1.5rem;">
             <div class="container h-100">
                 <div class="row d-flex justify-content-center align-items-center h-100">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 
 class KategoriController extends Controller
 {
@@ -13,7 +14,8 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        //
+        $kategori=Kategori::all();
+        return view('kategori.index')->with('kategori',$kategori);
     }
 
     /**
@@ -29,7 +31,16 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            "nama"=>"required|string|unique:kategori",
+        ]);
+
+        Kategori::create([
+            'nama' => $request->nama,
+        ]);
+
+        toastr()->success("$request->nama berhasil ditambahkan");
+        return back();
     }
 
     /**
@@ -43,24 +54,43 @@ class KategoriController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Kategori $kategori)
+    public function edit($id)
     {
-        //
+        $id=Kategori::find($id);
+        return back()->with('update',$id);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Kategori $kategori)
+    public function update(Request $request, Kategori $id)
     {
-        //
+        $validate=$request->validate([
+            "nama_edit"=>"required|string|unique:kategori,nama",
+        ]);
+        // dd($id);
+        $namaAwal=$id->nama;
+        $id->update(['nama' => $request->nama_edit]);
+
+        toastr()->success("Kategori ".$namaAwal." berhasil diupdate menjadi ".$validate['nama_edit']);
+        return back();
+    }
+
+    public function delete($id)
+    {
+        $id=Kategori::find($id);
+        return back()->with('delete',$id);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Kategori $kategori)
+    public function destroy($id)
     {
-        //
+        $nama=Kategori::find($id)->nama;
+        Kategori::find($id)->delete();
+
+        toastr()->success("Kategori $nama berhasil dihapus");
+        return back();
     }
 }

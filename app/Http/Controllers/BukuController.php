@@ -13,7 +13,9 @@ class BukuController extends Controller
      */
     public function index()
     {
-        //
+        $id=auth()->user()->role;
+        $id==='A'?$buku=Buku::all():$buku=Buku::where('user_id',auth()->user()->id)->get();
+        return view('buku.index')->with('buku', $buku);
     }
 
     /**
@@ -29,7 +31,7 @@ class BukuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
