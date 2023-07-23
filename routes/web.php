@@ -32,5 +32,12 @@ Route::patch('/kategori/update/{id}',[KategoriController::class,'update']);
 Route::get('/kategori/delete/{id}',[KategoriController::class,'delete']);
 Route::delete('/kategori/destroy/{id}',[KategoriController::class,'destroy']);
 
-Route::get('/buku',[BukuController::class,'index']);
-Route::post('/buku/add',[BukuController::class,'store']);
+// Route::get('/buku',[BukuController::class,'index']);
+// Route::post('/buku/add',[BukuController::class,'store']);
+// Route::get('/buku/edit/{id}',[BukuController::class,'edit']);
+// Route::patch('/buku/update/{id}',[BukuController::class,'update']);
+// Route::get('/buku/delete/{id}',[BukuController::class,'delete']);
+// Route::delete('/buku/destroy/{id}',[BukuController::class,'destroy']);
+Route::resource('/buku',BukuController::class);
+Route::get('/buku/edit/{id}',[BukuController::class,'edit']);
+Route::get('/buku/delete/{id}',[BukuController::class,'delete']);
