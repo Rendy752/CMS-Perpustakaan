@@ -2,8 +2,21 @@
 @section('content')
 <div class="card mb-4">
     <div class="text-center card-header">
-        <i class="fas fa-book"></i> Book -> <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#add">&plus;</button>
+        <i class="fas fa-book mt-3"></i> Book -> <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#add">&plus;</button>
         @include('buku.create')
+        <div class="row my-3 px-sm-5">
+            <label class="col-form-label mt-3 col-4"><h5>Filter :</h5></label>
+            <div class="col-8">
+                <select name="kategori" class="h-100 col-md-12 rounded form-select" onchange="window.location.href=this.value">
+                    <option>--</option>
+                    <option value={{route('buku.index')}}>All</option>
+                    @foreach($kategori as $data)
+                    <option value="{{route('buku.show', $data->id)}}" 
+                        value="{{$data->id}}">{{$data->nama}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
     </div>
     <div class="p-4">
         <div

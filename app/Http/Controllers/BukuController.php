@@ -68,9 +68,12 @@ class BukuController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Buku $buku)
+    public function show($buku)
     {
-        //
+        $kategori=$buku;
+        $buku=Buku::where('kategori_id',$buku)->get();
+        // dd($kategori);
+        return view('buku.index')->with('buku',$buku)->with('kategori',kategori::all())->with('filter',$kategori);
     }
 
     /**

@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top text-light px-5 text-center">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top text-light px-5 text-center">
         <div class="container-fluid">
           <a class="navbar-brand">Menu</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
@@ -30,14 +30,6 @@
                 <a class="nav-link" href="/kategori"><div class="text-center"><i class="fa fa-tag"></i></div>Categories</a>
                 <a class="nav-link" href="/buku"><div class="text-center"><i class="fa fa-book"></i></div>Books</a>
                 @endif
-            <form class="mx-md-5">
-                <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..."
-                        aria-describedby="btnNavbarSearch" />
-                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i
-                            class="fas fa-search"></i></button>
-                </div>
-            </form>
             <h4 class="navbar-nav mx-2">{{ Auth::check()?Auth::user()->name:'Anonymous' }}</h4>
             <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
                 <li class="nav-item dropdown">
@@ -59,7 +51,6 @@
       </nav>
     <main>
         <div class="container-fluid px-lg-5 py-lg-3">
-            <h1>Dashboard</h1>
             @yield('content')
             @if (Auth::check())
                 @include('profile')

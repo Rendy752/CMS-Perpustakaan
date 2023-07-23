@@ -3,6 +3,7 @@
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,9 +17,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/home', function () {
-    return view('master');
-});
+// Route::get('/home', function () {
+//     return view('dashboard');
+// });
+
+Route::get('/home', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::post('/login',[UserController::class,'login']);
 Route::post('/register',[UserController::class,'register']);
