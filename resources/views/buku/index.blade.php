@@ -8,7 +8,7 @@
             <label class="col-form-label mt-3 col-4"><h5>Filter :</h5></label>
             <div class="col-8">
                 <select name="kategori" class="h-100 col-md-12 rounded form-select" onchange="window.location.href=this.value">
-                    <option>--</option>
+                    <option>-> Pilih Kategori <-</option>
                     <option value={{route('buku.index')}}>All</option>
                     @foreach($kategori as $data)
                     <option value="{{route('buku.show', $data->id)}}" 
@@ -23,12 +23,9 @@
             class='container-fluid card-container d-flex justify-content-center align-items-center gap-5 flex-wrap'>
             @foreach($buku as $data)
             <section class="fw-bolder float-left card col-lg-3 col-md-4 shadow p-3">
+                <img src="{{asset('foto/'.$data->cover)}}" class="rounded shadow border border-dark"style="width: auto; height: 15rem;">
                 <table>
-                    <tr>
-                        <td>Cover</td>
-                        <td>:</td>
-                        <td><img src="{{asset('foto/'.$data->cover)}}" style="width: 2rem; height: 2rem;"></td>
-                    </tr>
+                    @if (Auth::user()->role==='A') 
                     <tr>
                         <td>ID</td>
                         <td>:</td>
@@ -39,31 +36,14 @@
                         <td>:</td>
                         <td>{{ $data->user->name }}</td>
                     </tr>
-                    <tr>
-                        <td>Judul</td>
-                        <td>:</td>
-                        <td>{{ $data->judul }}</td>
-                    </tr>
-                    <tr>
-                        <td>Kategori</td>
-                        <td>:</td>
-                        <td>{{ $data->kategori->nama }}</td>
-                    </tr>
-                    <tr>
-                        <td>Deskripsi</td>
-                        <td>:</td>
-                        <td>{{ $data->deskripsi }}</td>
-                    </tr>
-                    <tr>
-                        <td>Jumlah</td>
-                        <td>:</td>
-                        <td>{{ $data->jumlah }}</td>
-                    </tr>
-                    <tr>
-                        <td>File</td>
-                        <td>:</td>
-                        <td><a href="{{asset('file/'.$data->file)}}" target="_blank" style="width: 2rem; height: 2rem;">{{ $data->file }}</td>
-                    </tr>
+                    @endif
+                    <section class="text-center mt-3"><h2>{{ $data->judul }} ({{ $data->kategori->nama }})</h2></section>
+                    <div class="bg-primary rounded shadow ps-2">
+                        <span class="bg-warning rounded shadow p-2">Deskripsi</span>
+                        <p class="mt-2">{{ $data->deskripsi }}</p>
+                    </div>
+                    <span class="text-center mt-3 bg-success rounded shadow py-2">Jumlah<br>{{ $data->jumlah }}</span>
+                    <div class="text-center mb-3"><a href="{{asset('file/'.$data->file)}}" target="_blank" style="width: 2rem; height: 2rem;">Download here -> {{ $data->file }}</div>
                 </table>
                 <div class="text-center mt-3">
                     <a class="btn btn-secondary border border-light rounded py-2 px-3 shadow" href={{ "buku/edit/".$data->id }}><i

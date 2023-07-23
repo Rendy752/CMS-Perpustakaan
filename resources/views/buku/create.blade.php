@@ -30,7 +30,7 @@
                                             </div>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input class="form-control mt-3" name="deskripsi" type="text" placeholder="Deskripsi" value="{{old('deskripsi')}}" required/>
+                                            <textarea class="form-control mt-3" name="deskripsi" rows="5" cols="50" placeholder="Deskripsi" required>{{old('deskripsi')}}</textarea>
                                             <label>Deskripsi</label>
                                             @error('deskripsi')
                                             <div class="text-danger">&times {{ $message }}</div>

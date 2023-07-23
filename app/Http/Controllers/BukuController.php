@@ -70,10 +70,13 @@ class BukuController extends Controller
      */
     public function show($buku)
     {
-        $kategori=$buku;
-        $buku=Buku::where('kategori_id',$buku)->get();
+        $id=auth()->user()->role;
+        // $buku=Buku::where('kategori_id',$buku)->get();
+        
+        $id==='A'?$buku=Buku::all()->where('kategori_id',$buku):$buku=Buku::where('user_id',auth()->user()->id)->where('kategori_id',$buku)->get();
+        // dd($buku);
         // dd($kategori);
-        return view('buku.index')->with('buku',$buku)->with('kategori',kategori::all())->with('filter',$kategori);
+        return view('buku.index')->with('buku',$buku)->with('kategori',kategori::all());
     }
 
     /**
