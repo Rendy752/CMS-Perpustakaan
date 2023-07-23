@@ -11,12 +11,14 @@
             @foreach($kategori as $data)
             <section class="fw-bolder float-left card col-lg-3 col-md-4 shadow p-3 text-center rounded-circle">
                 <strong>{{ $data->nama }}</strong>
+                @if (Auth::user()->role==='A') 
                 <div class="mt-3">
                     <a class="btn btn-secondary border border-light rounded py-2 px-3 shadow" href={{ "kategori/edit/".$data->id }}><i
                             class="fas fa-edit text-warning"></i></a>
                     <a class="btn btn-secondary border border-light rounded py-2 px-3 shadow" href={{ "kategori/delete/".$data->id }}><i
                             class="fa fa-trash text-danger"></i></a>
                 </div>
+                @endif
             </section>
             @endforeach
         </div>

@@ -16,31 +16,24 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-// Route::get('/home', function () {
-//     return view('dashboard');
-// });
-
 Route::get('/home', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::post('/login',[UserController::class,'login']);
 Route::post('/register',[UserController::class,'register']);
-Route::get('/logout',[UserController::class,'logout']);
-Route::patch('/profile',[UserController::class,'profile']);
 
+Route::middleware('admin')->group(function () {
 Route::get('/kategori',[KategoriController::class,'index']);
 Route::post('/kategori/add',[KategoriController::class,'store']);
 Route::get('/kategori/edit/{id}',[KategoriController::class,'edit']);
 Route::patch('/kategori/update/{id}',[KategoriController::class,'update']);
 Route::get('/kategori/delete/{id}',[KategoriController::class,'delete']);
 Route::delete('/kategori/destroy/{id}',[KategoriController::class,'destroy']);
+});
 
-// Route::get('/buku',[BukuController::class,'index']);
-// Route::post('/buku/add',[BukuController::class,'store']);
-// Route::get('/buku/edit/{id}',[BukuController::class,'edit']);
-// Route::patch('/buku/update/{id}',[BukuController::class,'update']);
-// Route::get('/buku/delete/{id}',[BukuController::class,'delete']);
-// Route::delete('/buku/destroy/{id}',[BukuController::class,'destroy']);
+Route::middleware('login')->group(function () {
+Route::get('/logout',[UserController::class,'logout']);
+Route::patch('/profile',[UserController::class,'profile']);
 Route::resource('/buku',BukuController::class);
 Route::get('/buku/edit/{id}',[BukuController::class,'edit']);
 Route::get('/buku/delete/{id}',[BukuController::class,'delete']);
+});
