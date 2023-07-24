@@ -84,6 +84,9 @@ class BukuController extends Controller
      */
     public function edit(Buku $buku)
     {
+        if(auth()->user()->role==='U'&&auth()->user()->id!=$buku->user_id){
+            abort(403);
+        }
         return back()->with('update',$buku)->with('kategori',kategori::all());
     }
 
@@ -92,6 +95,9 @@ class BukuController extends Controller
      */
     public function update(Request $request,Buku $buku)
     {
+        if(auth()->user()->role==='U'&&auth()->user()->id!=$buku->user_id){
+            abort(403);
+        }
         // dd($request,$buku);
         $namaAwal=$buku->judul;
         // dd($request);
@@ -140,6 +146,9 @@ class BukuController extends Controller
     public function delete($id)
     {
         $id=Buku::find($id);
+        if(auth()->user()->role==='U'&&auth()->user()->id!=$id->user_id){
+            abort(403);
+        }
         return back()->with('delete',$id);
     }
 
@@ -148,6 +157,9 @@ class BukuController extends Controller
      */
     public function destroy(Buku $buku)
     {
+        if(auth()->user()->role==='U'&&auth()->user()->id!=$buku->user_id){
+            abort(403);
+        }
         unlink(public_path().'/foto/'.$buku->cover);
         unlink(public_path().'/file/'.$buku->file);
         $buku->delete();
