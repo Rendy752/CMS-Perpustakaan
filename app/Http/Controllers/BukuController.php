@@ -82,59 +82,59 @@ class BukuController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Buku $buku)
     {
-        $id=Buku::find($id);
-        return back()->with('update',$id)->with('kategori',kategori::all());
+        return back()->with('update',$buku)->with('kategori',kategori::all());
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,Buku $buku)
     {
-        $id=Buku::find($id);
-        $namaAwal=$id->judul;
+        // dd($request,$buku);
+        $namaAwal=$buku->judul;
         // dd($request);
-        $coverAwal=$id->cover;
-        $fileAwal=$id->file;
-        // dd($namaAwal,$id);
+        $coverAwal=$buku->cover;
+        $fileAwal=$buku->file;
+        // dd($namaAwal,$id,$request->cover_edit);
         $validate=$request->validate([
-            // 'judul_edit'=>'required|string|unique:buku,judul',
-            // 'deskripsi_edit'=>'required|string',
-            // 'jumlah_edit' => 'required|numeric|min:1',
-            // 'cover_edit'=>'required|file|mimes:jpeg,jpg,png|max:1024',
-            // 'file_edit'=>'required|file|mimes:pdf|max:1024',
+            'judul_edit'=>'required|string|unique:buku,judul,'.$buku->id,
+            'deskripsi_edit'=>'required|string',
+            'jumlah_edit' => 'required|numeric|min:1',
+            'cover_edit'=>'required|file|mimes:jpeg,jpg,png|max:1024',
+            'file_edit'=>'required|file|mimes:pdf|max:1024',
         ],[
-            // 'cover_edit.max'=>'The cover field must not be greater than 1 mb.',
-            // 'file_edit.max'=>'The file field must not be greater than 1 mb.'
+            back()->with('update',$buku),
+            'cover_edit.max'=>'The cover field must not be greater than 1 mb.',
+            'file_edit.max'=>'The file field must not be greater than 1 mb.'
         ]);
 
-        if($request->judul_edit!=$namaAwal){//ada perubahan nama
+        if($validate['judul_edit']!=$namaAwal){//ada perubahan nama
             unlink(public_path().'/foto/'.$coverAwal);
             unlink(public_path().'/file/'.$fileAwal);
         }
 
-        $covername=$request->judul_edit.'.'.$request->cover_edit->getClientOriginalExtension();
-        $request->cover_edit->move('foto', $covername);
-        $filename=$request->judul_edit.'.'.$request->file_edit->getClientOriginalExtension();
-        $request->file_edit->move('file', $filename);
+        $covername=$validate['judul_edit'].'.'.$validate['cover_edit']->getClientOriginalExtension();
+        $validate['cover_edit']->move('foto', $covername);
+        $filename=$validate['judul_edit'].'.'.$validate['file_edit']->getClientOriginalExtension();
+        $validate['file_edit']->move('file', $filename);
 
-        $id->update([
-            'judul'=>$request->judul_edit,
+        $buku->update([
+            'judul'=>$validate['judul_edit'],
             'kategori_id'=>$request->kategori,
-            'deskripsi'=>$request->deskripsi_edit,
-            'jumlah'=>$request->jumlah_edit,
+            'deskripsi'=>$validate['deskripsi_edit'],
+            'jumlah'=>$validate['jumlah_edit'],
             'cover'=>$covername,
             'file'=>$filename
         ]);
 
-        if($request->judul_edit!=$namaAwal){
-            toastr()->success("Kategori ".$namaAwal." berhasil diupdate menjadi ".$request->judul_edit);
+        if($validate['judul_edit']!=$namaAwal){
+            toastr()->success("Kategori ".$namaAwal." berhasil diupdate menjadi ".$validate['judul_edit']);
         } else {
             toastr()->success("Kategori ".$namaAwal." berhasil diupdate");
         }
-        return back();
+        return redirect('buku');
     }
 
     public function delete($id)

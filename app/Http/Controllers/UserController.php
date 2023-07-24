@@ -79,12 +79,16 @@ class UserController extends Controller
         ]);
 
         // dd($request);
-
+        $namaAwal=auth()->user()->name;
         User::find(auth()->user()->id)->update([
             'name' => $request->name_profile
         ]);
 
-        toastr()->success("Profil berhasil diupdate");
-        return redirect('home');
+        if($request->name_profile!=$namaAwal){
+            toastr()->success("Profil ".$namaAwal." berhasil diupdate menjadi ".$request->name_profile);
+        } else {
+            toastr()->warning("Tidak ada perubahan");
+        }
+        return back();
     }
 }

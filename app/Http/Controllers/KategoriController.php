@@ -15,7 +15,10 @@ class KategoriController extends Controller
     public function index()
     {
         $kategori=Kategori::all();
-        return view('kategori.index')->with('kategori',$kategori);
+        // select kategori.nama,count(buku.id) as jumlah from kategori left join buku on kategori.id=buku.kategori_id group by kategori.id;
+        $jumlah=Kategori::select('kategori.id',DB::raw('count(buku.id) as jumlah'))->leftJoin('buku','buku.kategori_id','=','kategori.id')->groupBy('kategori.id')->get();
+        // dd($jumlah);
+        return view('kategori.index')->with('kategori',$kategori)->with('jumlah',$jumlah);
     }
 
     /**
@@ -66,14 +69,17 @@ class KategoriController extends Controller
     public function update(Request $request, Kategori $id)
     {
         $validate=$request->validate([
-            "nama_edit"=>"required|string|unique:kategori,nama",
-        ]);
-        // dd($id);
+            "nama_edit"=>"required|string|unique:kategori,nama,".$id->id,
+        ],[back()->with('update',$id),]);
         $namaAwal=$id->nama;
-        $id->update(['nama' => $request->nama_edit]);
+        $id->update(['nama' => $validate['nama_edit']]);
 
-        toastr()->success("Kategori ".$namaAwal." berhasil diupdate menjadi ".$validate['nama_edit']);
-        return back();
+        if($validate['nama_edit']!=$namaAwal){
+            toastr()->success("Kategori ".$namaAwal." berhasil diupdate menjadi ".$validate['nama_edit']);
+        } else {
+            toastr()->warning("Tidak ada perubahan");
+        }
+        return redirect('kategori');
     }
 
     public function delete($id)

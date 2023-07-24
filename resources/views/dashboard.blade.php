@@ -1,5 +1,26 @@
 @extends('master')
 @section('content')
+<div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner my-3 rounded shadow-lg">
+      <div class="carousel-item active" data-bs-interval="10000">
+        <img src="https://img.freepik.com/free-vector/hand-drawn-book-club-twitter-header-template_23-2149753861.jpg" class="d-block w-100" style="height: 30rem;" alt="readBook1">
+      </div>
+      <div class="carousel-item" data-bs-interval="2000">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4TOIfMZ9EZF6oAeEYU-QDrZ3tjNUQtkvkGw&usqp=CAU" class="d-block w-100" style="height: 30rem;" alt="readBook2">
+      </div>
+      <div class="carousel-item">
+        <img src="https://img.freepik.com/premium-vector/book-posters-stack-literature-flat-cartoon-school-university-backgrounds-geometric-magazine-cover-design-read-learn-more-concept-vector-banner-set_229548-3501.jpg" class="d-block w-100" style="height: 30rem;" alt="readBook1">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
 <div class="row">
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
@@ -119,7 +140,7 @@
                         },
                         yAxis: {
                             min: 0,
-                            max: {{ $buku }},
+                            max: {{ $max_buku[0]->max_buku }},
                             title: {
                                 text: 'Jumlah Kategori'
                             }

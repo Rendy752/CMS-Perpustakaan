@@ -10,7 +10,12 @@
             class='container-fluid card-container d-flex justify-content-center align-items-center gap-5 flex-wrap'>
             @foreach($kategori as $data)
             <section class="fw-bolder float-left card col-lg-3 col-md-4 shadow p-3 text-center rounded-circle">
-                <strong>{{ $data->nama }}</strong>
+                <h2>{{ $data->nama }}</h2>
+                @foreach($jumlah as $data2)
+                    @if($data2->id==$data->id)
+                        <h3>Jumlah = {{ $data2->jumlah }}</h3>
+                    @endif
+                @endforeach
                 @if (Auth::user()->role==='A') 
                 <div class="mt-3">
                     <a class="btn btn-secondary border border-light rounded py-2 px-3 shadow" href={{ "kategori/edit/".$data->id }}><i

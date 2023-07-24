@@ -24,29 +24,31 @@
             @foreach($buku as $data)
             <section class="fw-bolder float-left card col-lg-3 col-md-4 shadow p-3">
                 <img src="{{asset('foto/'.$data->cover)}}" class="rounded shadow border border-dark"style="width: auto; height: 15rem;">
+                <div class="text-center mb-3">Download here -><a href="{{asset('file/'.$data->file)}}" target="_blank" style="width: 2rem; height: 2rem;">{{ $data->file }}</a></div>
+                
                 <table>
                     @if (Auth::user()->role==='A') 
                     <tr>
                         <td>ID</td>
-                        <td>:</td>
+                        <td>=></td>
                         <td>{{ $data->id }}</td>
                     </tr>
                     <tr>
                         <td>User</td>
-                        <td>:</td>
+                        <td>=></td>
                         <td>{{ $data->user->name }}</td>
                     </tr>
                     @endif
-                    <section class="text-center mt-3"><h2>{{ $data->judul }} ({{ $data->kategori->nama }})</h2></section>
+                    <section class="text-center mt-1"><h2>{{ $data->judul }}</h2></section>
+                    <section class="text-center mt-1 mb-2"><h3>-- {{ $data->kategori->nama }} --</h3></section>
                     <div class="bg-primary rounded shadow ps-2">
                         <span class="bg-warning rounded shadow p-2">Deskripsi</span>
                         <p class="mt-2">{{ $data->deskripsi }}</p>
                     </div>
-                    <span class="text-center mt-3 bg-success rounded shadow py-2">Jumlah<br>{{ $data->jumlah }}</span>
-                    <div class="text-center mb-3"><a href="{{asset('file/'.$data->file)}}" target="_blank" style="width: 2rem; height: 2rem;">Download here -> {{ $data->file }}</div>
+                    <span class="text-center mt-3 bg-success rounded shadow py-2">Jumlah<hr>{{ $data->jumlah }}</span>
                 </table>
                 <div class="text-center mt-3">
-                    <a class="btn btn-secondary border border-light rounded py-2 px-3 shadow" href={{ "buku/edit/".$data->id }}><i
+                    <a class="btn btn-secondary border border-light rounded py-2 px-3 shadow" href="{{route('buku.edit',$data->id)}}"><i
                         class="fas fa-edit text-warning"></i></a>
                     <a class="btn btn-secondary border border-light rounded py-2 px-3 shadow" href={{ "buku/delete/".$data->id }}><i
                         class="fa fa-trash text-danger"></i></a>

@@ -45,6 +45,7 @@
                                             <div class="text-danger">&times {{ $message }}</div>
                                             @enderror
                                         </div>
+                                        <img src="{{asset('foto/'.session('update')->cover)}}" class="rounded shadow border border-dark"style="width: auto; height: 15rem;">
                                         <div class="row mb-3">
                                             <label class="col-form-label mt-3 col-4"><h5>Cover :</h5></label>
                                             <div class="col-8">
@@ -55,6 +56,7 @@
                                             <div class="text-danger">&times {{ $message }}</div>
                                             @enderror
                                         </div>
+                                        <a href="{{asset('file/'.session('update')->file)}}" target="_blank" class="text-warning" style="width: 2rem; height: 2rem;" download="{{ session('update')->file }}">Current file -> {{ session('update')->file }}</a>
                                         <div class="row mb-3">
                                             <label class="col-form-label mt-3 col-4"><h5>File :</h5></label>
                                             <div class="col-8">

@@ -34,6 +34,5 @@ Route::middleware('login')->group(function () {
 Route::get('/logout',[UserController::class,'logout']);
 Route::patch('/profile',[UserController::class,'profile']);
 Route::resource('/buku',BukuController::class);
-Route::get('/buku/edit/{id}',[BukuController::class,'edit']);
 Route::get('/buku/delete/{id}',[BukuController::class,'delete']);
 });
