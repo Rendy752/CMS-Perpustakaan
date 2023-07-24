@@ -50,7 +50,7 @@
                                             <label class="col-form-label mt-3 col-4"><h5>Cover :</h5></label>
                                             <div class="col-8">
                                                 <input type="file" name="cover_edit" class="form-control form-control-lg mt-3"
-                                                    placeholder="Cover" required />
+                                                    placeholder="Cover" />
                                             </div>
                                             @error('cover_edit')
                                             <div class="text-danger">&times {{ $message }}</div>
@@ -61,7 +61,7 @@
                                             <label class="col-form-label mt-3 col-4"><h5>File :</h5></label>
                                             <div class="col-8">
                                                 <input type="file" name="file_edit" class="form-control form-control-lg mt-3"
-                                                    placeholder="File" required />
+                                                    placeholder="File" />
                                             </div>
                                             @error('file_edit')
                                             <div class="text-danger">&times {{ $message }}</div>

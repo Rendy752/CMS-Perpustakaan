@@ -10,7 +10,7 @@
                             <div class="mb-md-5 mt-md-4 pb-2">
                                 <h2 class="fw-bold mb-2 text-uppercase mb-4 text-danger">Delete Book</h2>
                                 <img src="{{asset('foto/'.session('delete')->cover)}}" class="rounded shadow border border-dark"style="width: auto; height: 15rem;">
-                                <a href="{{asset('file/'.session('delete')->file)}}" target="_blank" class="text-warning" style="width: 2rem; height: 2rem;" download="{{ session('delete')->file }}">File -> {{ session('delete')->file }}</a>
+                                <div class="text-center mb-2"><a href="{{asset('file/'.session('delete')->file)}}" target="_blank" class="text-warning" style="width: 2rem; height: 2rem;" download="{{ session('delete')->file }}">File -> {{ session('delete')->file }}</a></div>
                                 <form method="POST" action="{{route('buku.destroy', session('delete'))}}">
                                     @csrf
                                     @method('DELETE')

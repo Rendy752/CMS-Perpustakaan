@@ -6,6 +6,7 @@ use App\Models\Buku;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Symfony\Component\Console\Input\Input;
 
 class BukuController extends Controller
 {
@@ -108,23 +109,46 @@ class BukuController extends Controller
             'judul_edit'=>'required|string|unique:buku,judul,'.$buku->id,
             'deskripsi_edit'=>'required|string',
             'jumlah_edit' => 'required|numeric|min:1',
-            'cover_edit'=>'required|file|mimes:jpeg,jpg,png|max:1024',
-            'file_edit'=>'required|file|mimes:pdf|max:1024',
+            'cover_edit'=>'file|mimes:jpeg,jpg,png|max:1024',
+            'file_edit'=>'file|mimes:pdf|max:1024',
         ],[
             back()->with('update',$buku),
             'cover_edit.max'=>'The cover field must not be greater than 1 mb.',
             'file_edit.max'=>'The file field must not be greater than 1 mb.'
         ]);
 
+        // $file = Input::file('upfile')->getClientOriginalName();
+        // dd(pathinfo(Input::file('foto')->getClientOriginalName(), $namaAwal));
+        // dd(pathinfo('/foto/'.$namaAwal,PATHINFO_FILENAME));
+        // dd(pathinfo(public_path().'/foto/'.$buku->cover));
         if($validate['judul_edit']!=$namaAwal){//ada perubahan nama
-            unlink(public_path().'/foto/'.$coverAwal);
-            unlink(public_path().'/file/'.$fileAwal);
+            // $locateCover=$namaAwal.".".pathinfo('/foto/'.$namaAwal)['extension'];
+            // $locateFile=$namaAwal.".".pathinfo('/file/'.$namaAwal)['extension'];
+            $renameCover=$validate['judul_edit'].".".pathinfo('/foto/'.$buku->cover)['extension'];
+            $renameFile=$validate['judul_edit'].".".pathinfo('/file/'.$buku->file)['extension'];
+            // dd($renameCover.$renameFile);
+            $covername=$renameCover;
+            $filename=$renameFile;
+            // dd($covername);
+            rename(public_path().'/foto/'.$buku->cover, public_path().'/foto/'.$renameCover);
+            rename(public_path('/file/'.$buku->file), public_path('/file/'.$renameFile));
         }
 
-        $covername=$validate['judul_edit'].'.'.$validate['cover_edit']->getClientOriginalExtension();
-        $validate['cover_edit']->move('foto', $covername);
-        $filename=$validate['judul_edit'].'.'.$validate['file_edit']->getClientOriginalExtension();
-        $validate['file_edit']->move('file', $filename);
+        if($request->cover_edit){
+            unlink(public_path().'/foto/'.$coverAwal);
+            $covername=$validate['judul_edit'].'.'.$validate['cover_edit']->getClientOriginalExtension();
+            $validate['cover_edit']->move('foto', $covername);
+        } else {
+            $covername=$coverAwal;
+        }
+        
+        if($request->file_edit){
+            unlink(public_path().'/file/'.$fileAwal);
+            $filename=$validate['judul_edit'].'.'.$validate['file_edit']->getClientOriginalExtension();
+            $validate['file_edit']->move('file', $filename);
+        } else {
+            $filename=$fileAwal;
+        }
 
         $buku->update([
             'judul'=>$validate['judul_edit'],
