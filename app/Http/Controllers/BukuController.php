@@ -101,9 +101,10 @@ class BukuController extends Controller
         }
         // dd($request,$buku);
         $namaAwal=$buku->judul;
-        // dd($request);
         $coverAwal=$buku->cover;
+        $covername=$coverAwal;
         $fileAwal=$buku->file;
+        $filename=$fileAwal;
         // dd($namaAwal,$id,$request->cover_edit);
         $validate=$request->validate([
             'judul_edit'=>'required|string|unique:buku,judul,'.$buku->id,
@@ -127,29 +128,36 @@ class BukuController extends Controller
             $renameCover=$validate['judul_edit'].".".pathinfo('/foto/'.$buku->cover)['extension'];
             $renameFile=$validate['judul_edit'].".".pathinfo('/file/'.$buku->file)['extension'];
             // dd($renameCover.$renameFile);
+            // dd($covername);
             $covername=$renameCover;
             $filename=$renameFile;
-            // dd($covername);
-            rename(public_path().'/foto/'.$buku->cover, public_path().'/foto/'.$renameCover);
-            rename(public_path('/file/'.$buku->file), public_path('/file/'.$renameFile));
+            rename(public_path().'/foto/'.$coverAwal, public_path().'/foto/'.$renameCover);
+            rename(public_path('/file/'.$fileAwal), public_path('/file/'.$renameFile));
         }
 
-        if($request->cover_edit){
+        if($request->cover_edit&&$validate['judul_edit']!=$namaAwal){
+            unlink(public_path().'/foto/'.$renameCover);
+            // $covername=$validate['judul_edit'].'.'.$validate['cover_edit']->getClientOriginalExtension();
+            $validate['cover_edit']->move('foto', $renameCover);
+        } else if($request->cover_edit){
+            // $covername=$coverAwal;
             unlink(public_path().'/foto/'.$coverAwal);
             $covername=$validate['judul_edit'].'.'.$validate['cover_edit']->getClientOriginalExtension();
             $validate['cover_edit']->move('foto', $covername);
-        } else {
-            $covername=$coverAwal;
         }
         
-        if($request->file_edit){
+        if($request->file_edit&&$validate['judul_edit']!=$namaAwal){
+            unlink(public_path().'/file/'.$renameFile);
+            // $filename=$validate['judul_edit'].'.'.$validate['file_edit']->getClientOriginalExtension();
+            $validate['file_edit']->move('file', $renameFile);
+        } else if ($request->file_edit){
+            // $filename=$fileAwal;
             unlink(public_path().'/file/'.$fileAwal);
             $filename=$validate['judul_edit'].'.'.$validate['file_edit']->getClientOriginalExtension();
             $validate['file_edit']->move('file', $filename);
-        } else {
-            $filename=$fileAwal;
         }
 
+        // dd($covername);
         $buku->update([
             'judul'=>$validate['judul_edit'],
             'kategori_id'=>$request->kategori,
