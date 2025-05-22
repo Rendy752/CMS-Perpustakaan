@@ -70,7 +70,7 @@ class UserController extends Controller
     function logout(){
         Auth::logout();
         toastr()->success('Logout berhasil');
-        return redirect('home');
+        return redirect('/');
     }
 
     function profile(Request $request){
