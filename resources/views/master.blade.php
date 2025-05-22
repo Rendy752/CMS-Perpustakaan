@@ -26,12 +26,12 @@
           </button>
           <div class="collapse navbar-collapse" id="navbar">
             <button class="btn btn-link btn-sm p-2 mx-auto" onclick="set()"><i id="mode" class="fa fa-toggle-off"></i></button>
-                <a class="nav-link" href="/home"><div class="text-center"><i class="fas fa-tachometer-alt"></i></div>Dashboard</a>
+                <a class="nav-link {{ Request::is('/') ? 'disabled' : '' }}" href="/"><div class="text-center"><i class="fas fa-tachometer-alt"></i></div>Dashboard</a>
                 @if (Auth::check())
                 @if (Auth::user()->role==='A') 
-                <a class="nav-link" href="/kategori"><div class="text-center"><i class="fa fa-tag"></i></div>Categories</a>
+                <a class="nav-link {{ Request::is('kategori*') ? 'disabled' : '' }}" href="/kategori"><div class="text-center"><i class="fa fa-tag"></i></div>Categories</a>
                 @endif
-                <a class="nav-link" href="/buku"><div class="text-center"><i class="fa fa-book"></i></div>Books</a>
+                <a class="nav-link {{ Request::is('buku*') ? 'disabled' : '' }}" href="/buku"><div class="text-center"><i class="fa fa-book"></i></div>Books</a>
                 @endif
             <h4 class="navbar-nav mx-2">{{ Auth::check()?Auth::user()->name:'Anonymous' }}</h4>
             <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
